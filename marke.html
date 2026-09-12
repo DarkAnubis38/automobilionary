@@ -314,15 +314,11 @@
     }
 
     async function loadModels() {
-      if (!makeId) {
-        status.textContent =
-          "Für diese Marke ist keine vPIC-Make-ID hinterlegt.";
-        return;
-      }
-
-      const endpoint =
-        `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeId/` +
-        `${encodeURIComponent(makeId)}?format=json`;
+     const endpoint = makeId
+  ? `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeId/` +
+    `${encodeURIComponent(makeId)}?format=json`
+  : `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMake/` +
+    `${encodeURIComponent(brandName)}?format=json`;
 
       try {
         const response = await fetch(endpoint);

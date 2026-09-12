@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automobilionary – Automobilmarken weltweit</title>
+  <style>
+    :root {
+      --black: #050505;
+      --surface: #111;
+      --surface-2: #181818;
+      --white: #f7f7f7;
+      --muted: #a5a5a5;
+      --line: #303030;
+      --hover: #777;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 50% -20%, #292929 0, transparent 42rem),
+        var(--black);
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      max-width: 1200px;
+      margin: auto;
+      padding: 1.25rem 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      width: 180px;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      letter-spacing: .2em;
+      font-size: 1rem;
+    }
+
+    .tagline {
+      margin-top: .3rem;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    main {
+      width: min(1160px, calc(100% - 2rem));
+      margin: auto;
+    }
+
+    .hero {
+      padding: 5rem 0 3rem;
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: .75rem;
+      letter-spacing: .2em;
+    }
+
+    h1 {
+      margin: 1rem 0;
+      font-size: clamp(2.4rem, 7vw, 5rem);
+      line-height: .98;
+      letter-spacing: -.06em;
+    }
+
+    .hero p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: .75rem 1rem;
+      padding: 1.25rem;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    label {
+      color: var(--muted);
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    input, select {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 .9rem;
+      color: var(--white);
+      background: var(--black);
+      border: 1px solid var(--line);
+      border-radius: 0;
+      font: inherit;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--white);
+    }
+
+    .count {
+      padding: 2rem 0 1rem;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: .75rem;
+      padding-bottom: 4rem;
+    }
+
+    .card {
+      min-height: 140px;
+      padding: 1.2rem;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      transition: .18s ease;
+    }
+
+    .card:hover {
+      border-color: var(--hover);
+      background: var(--surface-2);
+      transform: translateY(-2px);
+    }
+
+    .card h2 {
+      margin: 0 0 .8rem;
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      margin: .35rem 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .empty {
+      color: var(--muted);
+      padding: 2rem 0;
+    }
+
+    @media (max-width: 680px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .logo {
+        width: min(100%, 280px);
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 3.5rem 0 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img
+      src="assets/automobilionary-logo.jpg"
+      alt="Automobilionary – Sportwagen-Silhouette"
+      class="logo"
+    >
+    <div>
+      <div class="brand-name">AUTOMOBILIONARY</div>
+      <div class="tagline">Die Welt der Automobilmarken</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">AUTOMOBIL-DATENBANK</div>
+      <h1>Automobilmarken weltweit</h1>
+      <p>
+        Entdecken Sie Marken, die reale Automobilmodelle entwickelt,
+        gebaut und veröffentlicht haben.
+      </p>
+    </section>
+
+    <section class="filters">
+      <label>
+        Marke suchen
+        <input id="search" type="search"
+          placeholder="Audi, Ferrari, Toyota …">
+      </label>
+
+      <label>
+        Region
+        <select id="region">
+          <option value="">Alle Regionen</option>
+          <option>Europa</option>
+          <option>Nordamerika</option>
+          <option>Asien</option>
+          <option>Südamerika</option>
+          <option>Afrika</option>
+          <option>Ozeanien</option>
+        </select>
+      </label>
+    </section>
+
+    <div class="count" id="count"></div>
+    <section class="grid" id="grid"></section>
+  </main>
+
+  <script>
+    const brands = [
+      ["Abarth", "Italien", "Europa"],
+      ["Alfa Romeo", "Italien", "Europa"],
+      ["Alpine", "Frankreich", "Europa"],
+      ["Aston Martin", "Vereinigtes Königreich", "Europa"],
+      ["Audi", "Deutschland", "Europa"],
+      ["Bentley", "Vereinigtes Königreich", "Europa"],
+      ["BMW", "Deutschland", "Europa"],
+      ["Bugatti", "Frankreich", "Europa"],
+      ["Citroën", "Frankreich", "Europa"],
+      ["Dacia", "Rumänien", "Europa"],
+      ["Ferrari", "Italien", "Europa"],
+      ["Fiat", "Italien", "Europa"],
+      ["Jaguar", "Vereinigtes Königreich", "Europa"],
+      ["Koenigsegg", "Schweden", "Europa"],
+      ["Lamborghini", "Italien", "Europa"],
+      ["Land Rover", "Vereinigtes Königreich", "Europa"],
+      ["Lotus", "Vereinigtes Königreich", "Europa"],
+      ["Maserati", "Italien", "Europa"],
+      ["McLaren", "Vereinigtes Königreich", "Europa"],
+      ["Mercedes-Benz", "Deutschland", "Europa"],
+      ["MINI", "Vereinigtes Königreich", "Europa"],
+      ["Opel", "Deutschland", "Europa"],
+      ["Porsche", "Deutschland", "Europa"],
+      ["Peugeot", "Frankreich", "Europa"],
+      ["Renault", "Frankreich", "Europa"],
+      ["Rolls-Royce", "Vereinigtes Königreich", "Europa"],
+      ["SEAT", "Spanien", "Europa"],
+      ["Škoda", "Tschechien", "Europa"],
+      ["Smart", "Deutschland", "Europa"],
+      ["Volkswagen", "Deutschland", "Europa"],
+      ["Volvo", "Schweden", "Europa"],
+
+      ["Acura", "Japan", "Asien"],
+      ["Daihatsu", "Japan", "Asien"],
+      ["Genesis", "Südkorea", "Asien"],
+      ["Honda", "Japan", "Asien"],
+      ["Hyundai", "Südkorea", "Asien"],
+      ["Infiniti", "Japan", "Asien"],
+      ["Isuzu", "Japan", "Asien"],
+      ["Kia", "Südkorea", "Asien"],
+      ["Lexus", "Japan", "Asien"],
+      ["Mazda", "Japan", "Asien"],
+      ["Mitsubishi", "Japan", "Asien"],
+      ["Nissan", "Japan", "Asien"],
+      ["Subaru", "Japan", "Asien"],
+      ["Suzuki", "Japan", "Asien"],
+      ["Toyota", "Japan", "Asien"],
+
+      ["Buick", "USA", "Nordamerika"],
+      ["Cadillac", "USA", "Nordamerika"],
+      ["Chevrolet", "USA", "Nordamerika"],
+      ["Chrysler", "USA", "Nordamerika"],
+      ["Dodge", "USA", "Nordamerika"],
+      ["Ford", "USA", "Nordamerika"],
+      ["GMC", "USA", "Nordamerika"],
+      ["Jeep", "USA", "Nordamerika"],
+      ["Lincoln", "USA", "Nordamerika"],
+      ["Tesla", "USA", "Nordamerika"],
+
+      ["BYD", "China", "Asien"],
+      ["Chery", "China", "Asien"],
+      ["Geely", "China", "Asien"],
+      ["Great Wall", "China", "Asien"],
+      ["NIO", "China", "Asien"],
+      ["Rivian", "USA", "Nordamerika"],
+      ["Tata", "Indien", "Asien"],
+      ["Mahindra", "Indien", "Asien"],
+
+      ["Holden", "Australien", "Ozeanien"],
+      ["Proton", "Malaysia", "Asien"],
+      ["Troller", "Brasilien", "Südamerika"],
+      ["Agrale", "Brasilien", "Südamerika"]
+    ].map(([name, country, region]) => ({ name, country, region }));
+
+    const search = document.querySelector("#search");
+    const region = document.querySelector("#region");
+    const grid = document.querySelector("#grid");
+    const count = document.querySelector("#count");
+
+    function render() {
+      const query = search.value.trim().toLowerCase();
+      const selectedRegion = region.value;
+
+      const filtered = brands
+        .filter(brand =>
+          brand.name.toLowerCase().includes(query) ||
+          brand.country.toLowerCase().includes(query)
+        )
+        .filter(brand =>
+          !selectedRegion || brand.region === selectedRegion
+        )
+        .sort((a, b) => a.name.localeCompare(b.name, "de"));
+
+      count.textContent = `${filtered.length} Automobilmarke${filtered.length === 1 ? "" : "n"}`;
+
+      grid.innerHTML = filtered.length
+        ? filtered.map(brand => `
+          <article class="card">
+            <h2>${brand.name}</h2>
+            <p>${brand.country}</p>
+            <p>${brand.region}</p>
+          </article>
+        `).join("")
+        : `<div class="empty">Keine passende Automobilmarke gefunden.</div>`;
+    }
+
+    search.addEventListener("input", render);
+    region.addEventListener("change", render);
+    render();
+  </script>
+</body>
+</html>

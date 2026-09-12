@@ -193,9 +193,9 @@
   <main>
     <section class="hero">
       <div class="eyebrow">AUTOMOBIL-DATENBANK</div>
-      <h1>Automobilmarken weltweit</h1>
+      <h1>Alle Automobilmarken</h1>
       <p>
-        Entdecken Sie Marken, die reale Automobilmodelle entwickelt,
+        Entdecken Sie Hersteller, die reale Automobilmodelle entwickelt,
         gebaut und veröffentlicht haben.
       </p>
     </section>
@@ -231,9 +231,9 @@
       ["Alfa Romeo", "Italien", "Europa"],
       ["Alpine", "Frankreich", "Europa"],
       ["Aston Martin", "Vereinigtes Königreich", "Europa"],
-      ["Audi", "Deutschland", "Europa"],
+      ["Audi", "Deutschland", "Europa", "582"],
       ["Bentley", "Vereinigtes Königreich", "Europa"],
-      ["BMW", "Deutschland", "Europa"],
+      ["BMW", "Deutschland", "Europa", "452"],
       ["Bugatti", "Frankreich", "Europa"],
       ["Citroën", "Frankreich", "Europa"],
       ["Dacia", "Rumänien", "Europa"],
@@ -246,7 +246,7 @@
       ["Lotus", "Vereinigtes Königreich", "Europa"],
       ["Maserati", "Italien", "Europa"],
       ["McLaren", "Vereinigtes Königreich", "Europa"],
-      ["Mercedes-Benz", "Deutschland", "Europa"],
+      ["Mercedes-Benz", "Deutschland", "Europa", "452"],
       ["MINI", "Vereinigtes Königreich", "Europa"],
       ["Opel", "Deutschland", "Europa"],
       ["Porsche", "Deutschland", "Europa"],
@@ -262,7 +262,7 @@
       ["Acura", "Japan", "Asien"],
       ["Daihatsu", "Japan", "Asien"],
       ["Genesis", "Südkorea", "Asien"],
-      ["Honda", "Japan", "Asien"],
+      ["Honda", "Japan", "Asien", "474"],
       ["Hyundai", "Südkorea", "Asien"],
       ["Infiniti", "Japan", "Asien"],
       ["Isuzu", "Japan", "Asien"],
@@ -273,14 +273,14 @@
       ["Nissan", "Japan", "Asien"],
       ["Subaru", "Japan", "Asien"],
       ["Suzuki", "Japan", "Asien"],
-      ["Toyota", "Japan", "Asien"],
+      ["Toyota", "Japan", "Asien", "448"],
 
       ["Buick", "USA", "Nordamerika"],
       ["Cadillac", "USA", "Nordamerika"],
       ["Chevrolet", "USA", "Nordamerika"],
       ["Chrysler", "USA", "Nordamerika"],
       ["Dodge", "USA", "Nordamerika"],
-      ["Ford", "USA", "Nordamerika"],
+      ["Ford", "USA", "Nordamerika", "460"],
       ["GMC", "USA", "Nordamerika"],
       ["Jeep", "USA", "Nordamerika"],
       ["Lincoln", "USA", "Nordamerika"],
@@ -299,7 +299,7 @@
       ["Proton", "Malaysia", "Asien"],
       ["Troller", "Brasilien", "Südamerika"],
       ["Agrale", "Brasilien", "Südamerika"]
-    ].map(([name, country, region]) => ({ name, country, region }));
+    ].map(([name, country, region, makeId]) => ({ name, country, region, makeId }));
 
     const search = document.querySelector("#search");
     const region = document.querySelector("#region");
@@ -335,7 +335,48 @@
 
     search.addEventListener("input", render);
     region.addEventListener("change", render);
-    render();
+    grid.innerHTML = filtered.length
+  ? filtered.map(brand => `
+      <a
+        class="card"
+        href="marke.html?name=${encodeURIComponent(brand.name)}&makeId=${brand.makeId || ""}"
+        aria-label="${brand.name} öffnen"
+      >
+        <h2>${brand.name}</h2>
+        <p>${brand.country}</p>
+        <p>${brand.region}</p>
+        <span class="card-arrow">→</span>
+      </a>
+    `).join("")
+  : `<div class="empty">Keine passende Automobilmarke gefunden.</div>`;
   </script>
 </body>
 </html>
+
+.card {
+  position: relative;
+  display: block;
+  min-height: 140px;
+  padding: 1.2rem;
+  color: var(--white);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  transition: .18s ease;
+}
+
+.card:hover,
+.card:focus-visible {
+  color: var(--white);
+  border-color: var(--hover);
+  background: var(--surface-2);
+  transform: translateY(-2px);
+}
+
+.card-arrow {
+  position: absolute;
+  right: 1.2rem;
+  bottom: 1rem;
+  color: var(--muted);
+  font-size: 1.25rem;
+}

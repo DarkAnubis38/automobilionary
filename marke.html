@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automobilionary – Marke</title>
+
+  <style>
+    :root {
+      --black: #050505;
+      --surface: #111;
+      --surface-2: #181818;
+      --white: #f7f7f7;
+      --muted: #a5a5a5;
+      --line: #303030;
+      --hover: #777;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 50% -20%, #292929 0, transparent 42rem),
+        var(--black);
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      max-width: 1200px;
+      margin: auto;
+      padding: 1.25rem 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      width: 180px;
+      height: auto;
+      display: block;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      letter-spacing: .2em;
+      font-size: 1rem;
+    }
+
+    .tagline {
+      margin-top: .3rem;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    main {
+      width: min(1160px, calc(100% - 2rem));
+      margin: auto;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 2rem;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .back:hover {
+      color: var(--white);
+    }
+
+    .hero {
+      padding: 3rem 0 2rem;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: .75rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: .75rem 0;
+      font-size: clamp(2.4rem, 7vw, 5rem);
+      line-height: .98;
+      letter-spacing: -.06em;
+    }
+
+    .description {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: .75rem 1rem;
+      padding: 1.25rem;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    label {
+      color: var(--muted);
+      font-size: .75rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 48px;
+      margin-top: .45rem;
+      padding: 0 .9rem;
+      color: var(--white);
+      background: var(--black);
+      border: 1px solid var(--line);
+      border-radius: 0;
+      font: inherit;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--white);
+    }
+
+    .count {
+      padding: 2rem 0 1rem;
+      color: var(--muted);
+    }
+
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: .75rem;
+      padding-bottom: 4rem;
+    }
+
+    .model-card {
+      min-height: 125px;
+      padding: 1.2rem;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      transition: .18s ease;
+    }
+
+    .model-card:hover {
+      border-color: var(--hover);
+      background: var(--surface-2);
+      transform: translateY(-2px);
+    }
+
+    .model-card h2 {
+      margin: 0 0 .7rem;
+      font-size: 1.1rem;
+    }
+
+    .model-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .86rem;
+    }
+
+    .status,
+    .error,
+    .empty {
+      padding: 2rem 0;
+      color: var(--muted);
+    }
+
+    .error {
+      color: #d0d0d0;
+    }
+
+    @media (max-width: 680px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .logo {
+        width: min(100%, 280px);
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a href="./">
+      <img
+        src="assets/automobilionary-logo.jpg"
+        alt="Automobilionary – Sportwagen-Silhouette"
+        class="logo"
+      >
+    </a>
+
+    <div>
+      <div class="brand-name">AUTOMOBILIONARY</div>
+      <div class="tagline">Die Welt der Automobilmarken</div>
+    </div>
+  </header>
+
+  <main>
+    <a class="back" href="./">← Zurück zu allen Marken</a>
+
+    <section class="hero">
+      <div class="eyebrow">MARKENMODELLE</div>
+      <h1 id="brand-title">Marke</h1>
+      <p class="description">
+        Verfügbare Modelle dieser Automobilmarke in der vPIC-Datenbank.
+      </p>
+    </section>
+
+    <section class="toolbar">
+      <label>
+        Modell suchen
+        <input
+          id="model-search"
+          type="search"
+          placeholder="Modellname eingeben …"
+        >
+      </label>
+
+      <label>
+        Modelltyp
+        <select id="type-filter">
+          <option value="">Alle Typen</option>
+        </select>
+      </label>
+    </section>
+
+    <div id="status" class="status">Modelle werden geladen …</div>
+    <div id="count" class="count"></div>
+    <section id="model-grid" class="model-grid"></section>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const brandName = params.get("name") || "Unbekannte Marke";
+    const makeId = params.get("makeId");
+
+    const title = document.querySelector("#brand-title");
+    const status = document.querySelector("#status");
+    const count = document.querySelector("#count");
+    const grid = document.querySelector("#model-grid");
+    const search = document.querySelector("#model-search");
+    const typeFilter = document.querySelector("#type-filter");
+
+    let models = [];
+
+    title.textContent = brandName;
+    document.title = `Automobilionary – ${brandName}`;
+
+    function render() {
+      const query = search.value.trim().toLowerCase();
+      const selectedType = typeFilter.value;
+
+      const filtered = models
+        .filter(model =>
+          model.name.toLowerCase().includes(query)
+        )
+        .filter(model =>
+          !selectedType || model.type === selectedType
+        )
+        .sort((a, b) => a.name.localeCompare(b.name, "de"));
+
+      count.textContent =
+        `${filtered.length} Modell${filtered.length === 1 ? "" : "e"}`;
+
+      grid.innerHTML = filtered.length
+        ? filtered.map(model => `
+            <article class="model-card">
+              <h2>${escapeHtml(model.name)}</h2>
+              <p>${escapeHtml(model.type || "Fahrzeugmodell")}</p>
+            </article>
+          `).join("")
+        : `<div class="empty">Keine passenden Modelle gefunden.</div>`;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function addTypes() {
+      const types = [...new Set(
+        models
+          .map(model => model.type)
+          .filter(Boolean)
+      )].sort((a, b) => a.localeCompare(b, "de"));
+
+      typeFilter.innerHTML = `
+        <option value="">Alle Typen</option>
+        ${types.map(type =>
+          `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`
+        ).join("")}
+      `;
+    }
+
+    async function loadModels() {
+      if (!makeId) {
+        status.textContent =
+          "Für diese Marke ist keine vPIC-Make-ID hinterlegt.";
+        return;
+      }
+
+      const endpoint =
+        `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeId/` +
+        `${encodeURIComponent(makeId)}?format=json`;
+
+      try {
+        const response = await fetch(endpoint);
+
+        if (!response.ok) {
+          throw new Error("Die API konnte nicht erreicht werden.");
+        }
+
+        const data = await response.json();
+
+        models = (data.Results || [])
+          .map(item => ({
+            name: item.Model_Name,
+            type: item.VehicleTypeName || ""
+          }))
+          .filter(item => item.name);
+
+        status.remove();
+        addTypes();
+        render();
+      } catch (error) {
+        status.className = "error";
+        status.textContent =
+          "Die Modelle konnten momentan nicht geladen werden.";
+      }
+    }
+
+    search.addEventListener("input", render);
+    typeFilter.addEventListener("change", render);
+
+    loadModels();
+  </script>
+</body>
+</html>

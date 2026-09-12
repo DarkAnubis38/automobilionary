@@ -231,9 +231,9 @@
       ["Alfa Romeo", "Italien", "Europa"],
       ["Alpine", "Frankreich", "Europa"],
       ["Aston Martin", "Vereinigtes Königreich", "Europa"],
-      ["Audi", "Deutschland", "Europa", "582"],
+      ["Audi", "Deutschland", "Europa"],
       ["Bentley", "Vereinigtes Königreich", "Europa"],
-      ["BMW", "Deutschland", "Europa", "452"],
+      ["BMW", "Deutschland", "Europa"],
       ["Bugatti", "Frankreich", "Europa"],
       ["Citroën", "Frankreich", "Europa"],
       ["Dacia", "Rumänien", "Europa"],
@@ -246,7 +246,7 @@
       ["Lotus", "Vereinigtes Königreich", "Europa"],
       ["Maserati", "Italien", "Europa"],
       ["McLaren", "Vereinigtes Königreich", "Europa"],
-      ["Mercedes-Benz", "Deutschland", "Europa", "452"],
+      ["Mercedes-Benz", "Deutschland", "Europa"],
       ["MINI", "Vereinigtes Königreich", "Europa"],
       ["Opel", "Deutschland", "Europa"],
       ["Porsche", "Deutschland", "Europa"],
@@ -262,7 +262,7 @@
       ["Acura", "Japan", "Asien"],
       ["Daihatsu", "Japan", "Asien"],
       ["Genesis", "Südkorea", "Asien"],
-      ["Honda", "Japan", "Asien", "474"],
+      ["Honda", "Japan", "Asien"],
       ["Hyundai", "Südkorea", "Asien"],
       ["Infiniti", "Japan", "Asien"],
       ["Isuzu", "Japan", "Asien"],
@@ -273,14 +273,14 @@
       ["Nissan", "Japan", "Asien"],
       ["Subaru", "Japan", "Asien"],
       ["Suzuki", "Japan", "Asien"],
-      ["Toyota", "Japan", "Asien", "448"],
+      ["Toyota", "Japan", "Asien"],
 
       ["Buick", "USA", "Nordamerika"],
       ["Cadillac", "USA", "Nordamerika"],
       ["Chevrolet", "USA", "Nordamerika"],
       ["Chrysler", "USA", "Nordamerika"],
       ["Dodge", "USA", "Nordamerika"],
-      ["Ford", "USA", "Nordamerika", "460"],
+      ["Ford", "USA", "Nordamerika"],
       ["GMC", "USA", "Nordamerika"],
       ["Jeep", "USA", "Nordamerika"],
       ["Lincoln", "USA", "Nordamerika"],
@@ -299,7 +299,7 @@
       ["Proton", "Malaysia", "Asien"],
       ["Troller", "Brasilien", "Südamerika"],
       ["Agrale", "Brasilien", "Südamerika"]
-    ].map(([name, country, region, makeId]) => ({ name, country, region, makeId }));
+    ].map(([name, country, region]) => ({ name, country, region }));
 
     const search = document.querySelector("#search");
     const region = document.querySelector("#region");
@@ -352,31 +352,3 @@
   </script>
 </body>
 </html>
-
-.card {
-  position: relative;
-  display: block;
-  min-height: 140px;
-  padding: 1.2rem;
-  color: var(--white);
-  text-decoration: none;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  transition: .18s ease;
-}
-
-.card:hover,
-.card:focus-visible {
-  color: var(--white);
-  border-color: var(--hover);
-  background: var(--surface-2);
-  transform: translateY(-2px);
-}
-
-.card-arrow {
-  position: absolute;
-  right: 1.2rem;
-  bottom: 1rem;
-  color: var(--muted);
-  font-size: 1.25rem;
-}
